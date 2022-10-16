@@ -10,8 +10,8 @@ function getSentryServer(dsn, withProtocol = true) {
 
 module.exports = function(environment) {
   const ENV = {
-    appName                  : process.env.APP_NAME || 'GROOVY Event',
-    modulePrefix             : 'open-event-frontend',
+    appName                  : process.env.APP_NAME || 'GRooVY Event',
+    modulePrefix             : 'oefront',
     environment,
     rootURL                  : process.env.ROOT_URL || 'oefront',
     locationType             : 'router-scroll',
