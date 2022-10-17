@@ -28,7 +28,7 @@ export default class VideoRoute extends Route {
 
     const stream = this.store.createRecord('video-stream', {
       name         : exhibitor.name,
-      url          : channel.get('url') + '/eventyay/exhibitor-' + exhibitor.id,
+      url          : channel.get('url') + '/groovy/exhibitor-' + exhibitor.id,
       videoChannel : channel
     });
 
