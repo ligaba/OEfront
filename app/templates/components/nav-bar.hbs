@@ -1,0 +1,107 @@
+<div class="mobile hidden row">
+  <div class="ui menu">
+    {{#if (eq this.settings.startPgEnabled 'event')}}
+      <LinkTo
+        @route="public.index" class="header item" @model={{this.settings.startPgEventId}} @activeClass="">
+        <h3>{{this.settings.appName}}</h3>
+      </LinkTo>
+    {{else}}
+      <LinkTo
+        @route="index" class="header item" @activeClass="">
+        <h3>{{this.settings.appName}}</h3>
+      </LinkTo>
+    {{/if}}
+    <div class="right menu nav-bar">
+    {{#if (and this.isNotEventPageRoute this.isNotExplorePageRoute this.isNotWizardPageRoute)}}
+      <div class="search-bar d-flex items-center space-between m-2 p-2">
+        <Input @class="prompt" @type="text" @key-up={{"handleKeyPress"}} @value={{this.event_name}} placeholder={{t "Search"}} />
+        <i class="search icon"></i>
+      </div>
+    {{/if}}
+    {{#if (and (not this.session.isAuthenticated) this.isNotEventPageRoute)}}
+      <LinkTo
+        @route="pricing" class="item"
+        @activeClass="">{{t 'Pricing'}}</LinkTo>
+    {{/if}}
+      {{!-- {{#if this.session.isAuthenticated}}
+        <NotificationDropdown />
+      {{/if}} --}}
+      {{#if this.session.isAuthenticated}}
+        <UiDropdown
+          @class="item"
+          @action="hide">
+          <Widgets::SafeImage
+            @isAvatar={{true}}
+            @class="ui avatar round image nav-bar-image"
+            @src={{if this.authManager.currentUser.avatarUrl this.authManager.currentUser.avatarUrl "/images/placeholders/avatar.png"}} />
+          {{if this.authManager.currentUser
+               (if this.authManager.currentUser.firstName this.authManager.currentUser.firstName this.authManager.currentUser.email)
+               'Welcome'}}
+          <i class="dropdown icon"></i>
+          <div class="menu profile-dropdown-menu">
+            <a href="{{href-to 'my-tickets'}}" class="item">{{t 'My Tickets'}}</a>
+            <a href="{{href-to 'my-sessions'}}" class="item">{{t 'My Sessions'}}</a>
+            <a href="{{href-to 'my-groups.list'}}" class="item">{{t 'Groups'}}</a>
+            <a href="{{href-to 'events.list' 'live'}}" class="item">{{t 'Manage Events'}}</a>
+            <div class="divider"></div>
+            <a href="{{href-to 'account.profile'}}" class="item">{{t 'Account'}}</a>
+            {{#if this.authManager.currentUser.isAnAdmin}}
+              <a href="{{href-to 'admin'}}" class="item">{{t 'Admin'}}</a>
+            {{/if}}
+            <div class="divider"></div>
+            <a href="#" role="button" class="item logout-button" {{action 'logout'}}><div class="d-flex">{{t 'Logout'}}<i
+                  class="ui sign out icon" style="margin-left: auto !important"></i></div></a>
+          </div>
+        </UiDropdown>
+      {{else}}
+        <a href="{{href-to 'login'}}" class="item">{{t 'Login'}}</a>
+      {{/if}}
+      {{#if (and this.isNotWizardPageRoute this.isNotEventPageRoute)}}
+        <LinkTo
+          @route="create" class="item ui blue text">
+          <div>
+            {{t 'Create Event'}}
+          </div>
+        </LinkTo>
+      {{/if}}
+    </div>
+  </div>
+</div>
+<div class="mobile only row">
+  <div class="ui navbar tiny menu">
+    <a href="#" class="menu item open sidebar">
+      <i class="large content icon"></i>
+    </a>
+    <LinkTo
+      @route="index" class="item" @activeClass="">
+      <div class="ui header small text">{{this.settings.appName}}</div>
+    </LinkTo>
+    <div id="mobile-bar" class="search-bar search-bar-mobile d-flex items-center space-between m-1 p-2">
+      <Input @class="prompt" id="mobileSearchBar" @type="text" @key-up={{"handleKeyPress"}} @value={{this.event_name}} placeholder={{t "Search"}} />
+      <i role="button" class="search icon" style="cursor: auto;" {{on "click" this.searchOnClick}}></i>
+    </div>
+    <div class="right menu nav-bar">
+      {{#if this.session.isAuthenticated}}
+        {{!-- <NotificationDropdown
+          @notifications={{this.notifications}} /> --}}
+      {{/if}}
+      {{#if (and this.isNotEventPageRoute this.isNotExplorePageRoute this.isNotWizardPageRoute)}}
+        <div role="button" class="item ui" {{action "toggleMobileSearchBar"}} >
+          <i class="search icon"></i>
+        </div>
+      {{/if}}
+      {{#if this.session.isAuthenticated}}
+        {{#if this.isNotWizardPageRoute}}
+          <LinkTo
+            @route="create" class="item ui blue button-text small text">
+            <div>
+              {{t 'Create Event'}}
+            </div>
+          </LinkTo>
+        {{/if}}
+      {{else}}
+        <a href="{{href-to 'login'}}" class="item">{{t 'Login'}}</a>
+      {{/if}}
+    </div>
+  </div>
+</div>
